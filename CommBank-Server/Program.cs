@@ -1,5 +1,6 @@
 ﻿using CommBank.Models;
 using CommBank.Services;
+using CommBank_Server.Data;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,11 @@ builder.Services.AddSingleton(goalsService);
 builder.Services.AddSingleton(tagsService);
 builder.Services.AddSingleton(transactionsService);
 builder.Services.AddSingleton(usersService);
+
+if(mongoClient.ListDatabaseNames().ToList().Count == 0)
+{
+    SeedData _seed = new SeedData(mongoDatabase);
+}
 
 builder.Services.AddCors();
 
